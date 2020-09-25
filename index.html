@@ -1,0 +1,111 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<title>Color Clock</title>
+<style>
+body{
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;}
+@font-face {font-family: 'Brandon'; src: url('font/Brandon_med.otf');font-weight:200;}
+@font-face {font-family: 'Brandon'; src: url('font/Brandon_light.otf'); font-weight:200;}
+	.box{display: block;position: relative;width:90%;margin:0 auto;text-align: center;padding-top: 19%;font-size:90px;font-family: 'Brandon', serif;font-weight: 500;color:#fff;}
+	#hr{display: inline;}
+	#min{display: inline;}
+	#sec{display: inline;}
+	#ampm{display: inline;}
+	.whole{display: block;position: relative;width:90%;margin:0 auto;text-align: center;padding-top: 5%;font-size:45px;font-family: 'Brandon', serif;font-weight: 500;color:#fff;}
+
+</style>
+</head>
+
+
+
+<body>
+
+
+<div class="box">
+	<div id="hr"></div> : <div id="min"></div>  : <div id="sec"></div> <div id="ampm"></div>
+</div>
+<div class="test"></div>
+<div class="testt"></div>
+<div class="testtt"></div>
+<div class="whole">
+	Current Background Color:<br>
+<div class="butts"></div>
+</div>
+</body>
+
+
+
+<script>
+function theClock(){
+
+	// Set Varriables
+var a_p = "";
+var d = new Date();
+var curr_hour = d.getHours();
+var curr_min = d.getMinutes();
+var curr_sec = d.getSeconds();
+var curr_mill = d.getMilliseconds();
+
+// Set AM/PM add Prefix 0's
+if (curr_hour < 12){a_p = "AM";}
+   else{a_p = "PM";};
+   if (curr_hour == 0){curr_hour = 12;}
+   //if (curr_hour > 12){curr_hour = curr_hour - 12;}
+
+
+curr_min = curr_min + "";
+if (curr_min.length == 1){curr_min = "0" + curr_min;}
+
+if (curr_sec.toString().length == 1){curr_sec = "0" + curr_sec;}
+
+
+//Set Hexs
+var hexsecs = curr_sec.toString(16);
+if(hexsecs.length == 1){var hexsex = "0" + hexsecs;}
+else{ var hexsex = hexsecs;}
+
+//if(curr_hour.toString().length == 1){ var fullhr = "0" + curr_hour; }
+var hexhr = curr_hour.toString(16);
+
+var hexmin = curr_min.toString(16);
+
+
+if(curr_mill.toString().length < 100){ var srtmil = curr_mill.toString().substr(1, 100)}
+var hexmil = srtmil.toString(16);
+if(hexmil.length == ""){hexmil = "ff";}
+if(hexmil.length == 1){hexmil = "0" + hexmil;}
+
+// Display Hex's
+
+
+//combine hexes
+var color = hexhr.concat(hexmin,hexsex);
+if(color.length < 6){var hexcolor = "#7" + color;}
+else{var hexcolor = "#" + color;}
+
+$('.butts').html(hexcolor);
+
+$('body').css({'background-color' : hexcolor});
+
+var butts = curr_hour;
+if(butts > 12){butts = butts - 12;}
+if(butts.toString().length == 1){var buttts = "0" + butts;}
+else{buttts = butts;}
+
+
+// Display Time
+$('#hr').html(buttts);
+$('#min').html(curr_min);
+$('#sec').html(curr_sec);
+$('#ampm').html(a_p);
+
+setTimeout(theClock, 100);
+}
+theClock(); 
+</script>
+
+</html>
